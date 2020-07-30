@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <!--Asociacion con plantilla-->
+        <ui:composition template="plantilla.xhtml">
+            <ui:define name="content">
+
+                <!--Form-->
+                <h:form id="formprincipal">
+
+                    <!--Paneles-->
+                    <p:panel header="#{reservaManagedBean.reserva.id == null ? 'Ingreso de cancha': 'Actualizar cancha'}"
+                             rendered="#{reservaManagedBean.reserva != null}">
+
+                        <div align="center">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="NOMBRE"></p:outputLabel>
+                                <p:inputText value="#{reservaManagedBean.reserva.nombre}"></p:inputText>
+                                <p:outputLabel value ="APELLIDO"></p:outputLabel>
+                                <p:inputText value="#{reservaManagedBean.reserva.apellido}"></p:inputText>
+                                <p:outputLabel value ="CANCHA"></p:outputLabel>
+                                <p:inputText value="#{reservaManagedBean.reserva.cancha}"></p:inputText>
+                                <p:outputLabel value ="FECHA"></p:outputLabel>
+                                <p:calendar value="#{reservaManagedBean.reserva.fecha}">                              
+                                </p:calendar>
+                                <p:outputLabel value ="HORA"></p:outputLabel>
+                                <p:inputText value="#{reservaManagedBean.reserva.hora}"></p:inputText>
+                                <p:outputLabel value ="DESCRIPCION"></p:outputLabel>
+                                <p:inputText value="#{reservaManagedBean.reserva.descripcion}"></p:inputText>
+
+                            </h:panelGrid>  
+                        </div>
+
+                        <div align="center">
+                            <p:commandButton value="CANCELAR" action="#{reservaManagedBean.cancelar()}"
+                                             update="formprincipal"></p:commandButton>
+
+                            <p:commandButton value="GRABAR" action="#{reservaManagedBean.grabar()}"
+                                             update="formprincipal"></p:commandButton>
+
+                        </div>
+
+                    </p:panel>
+
+                    <!--Paneles-->
+                    <p:panel header="Lista de reservas" rendered="#{reservaManagedBean.reserva == null}">
+                        <div align="center">
+                            <p:commandButton value="Nuevo" action="#{reservaManagedBean.nuevo()}"
+                                             update="formprincipal">
+                            </p:commandButton>
+                        </div>
+
+                        <!--Tablas-->
+                        <p:dataTable id="tablaReserva" value="#{reservaManagedBean.listaReserva}" var="res">
+                            <p:column headerText="NOMBRE">
+                                <p:outputLabel value="#{res.nombre}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="APELIIDO">
+                                <p:outputLabel value="#{res.apellido}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="CANCHA">
+                                <p:outputLabel value="#{res.cancha}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="FECHA">
+                                <p:outputLabel value="#{res.fecha}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd"></f:convertDateTime>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="HORA">
+                                <p:outputLabel value="#{res.hora}">
+                                    <f:convertDateTime pattern="HH:mm"></f:convertDateTime>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="DESCRIPCION">
+                                <p:outputLabel value="#{res.descripcion}"></p:outputLabel>
+                            </p:column>
+
+                            <p:column headerText="EDITAR">
+                                <p:commandButton action="#{reservaManagedBean.seleccionar(res)}"
+                                                 update="formprincipal"
+                                                 icon="ui-icon-pencil">
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="ELIMINAR">
+                                <p:commandButton action="#{reservaManagedBean.eliminar(res)}"
+                                                 update="formprincipal"
+                                                 icon="ui-icon-trash">
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
